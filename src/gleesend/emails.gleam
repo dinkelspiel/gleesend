@@ -6,7 +6,7 @@ import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
 import gleam/result.{try}
-import resend.{type Resend}
+import gleesend.{type Resend}
 
 pub type ResendEmail {
   ResendEmail(
