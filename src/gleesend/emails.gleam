@@ -80,7 +80,7 @@ pub fn send_email(email: ResendEmail) {
         [
           #("from", json.string(email.from)),
           #("to", json.array(email.to, fn(a) { json.string(a) })),
-          #("subject", json.string(email.string)),
+          #("subject", json.string(email.subject)),
         ],
         case email.bcc {
           Some(bcc) -> [#("bcc", json.array(bcc, fn(a) { json.string(a) }))]

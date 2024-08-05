@@ -9,7 +9,7 @@ pub fn main() {
 
 pub fn gleesend_test() {
   let client =
-    resend.Resend(api_key: "// Replace this with your resend api key")
+    gleesend.Resend(api_key: "// Replace this with your resend api key")
 
   create_email(
     client:,
