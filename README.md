@@ -1,7 +1,7 @@
 # gleesend
 
-[![Package Version](https://img.shields.io/hexpm/v/resend)](https://hex.pm/packages/resend)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/resend/)
+[![Package Version](https://img.shields.io/hexpm/v/gleesend)](https://hex.pm/packages/gleesend)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/gleesend/)
 
 ```sh
 gleam add gleesend@1
