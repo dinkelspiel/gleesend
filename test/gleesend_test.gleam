@@ -1,13 +1,13 @@
+import gleesend
+import gleesend/emails.{create_email, send_email, with_html}
 import gleeunit
 import gleeunit/should
-import resend
-import resend/emails.{create_email, send_email, with_html}
 
 pub fn main() {
   gleeunit.main()
 }
 
-pub fn resend_test() {
+pub fn gleesend_test() {
   let client =
     resend.Resend(api_key: "// Replace this with your resend api key")
 
