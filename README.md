@@ -1,19 +1,19 @@
-# resend
+# gleesend
 
 [![Package Version](https://img.shields.io/hexpm/v/resend)](https://hex.pm/packages/resend)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/resend/)
 
 ```sh
-gleam add resend@1
+gleam add gleesend@1
 ```
 
 ```gleam
-import resend
-import resend/emails.{create_email, send_email, with_html}
+import gleesend
+import gleesend/emails.{create_email, send_email, with_html}
 
 pub fn main() {
   let client =
-    resend.Resend(api_key: "// Replace this with your resend api key")
+    gleesend.Resend(api_key: "// Replace this with your resend api key")
 
   create_email(
     client:,

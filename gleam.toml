@@ -1,7 +1,8 @@
-name = "resend"
+name = "gleesend"
+description = "A resend.com library for the Gleam programming language"
 version = "1.0.0"
 licences = ["MIT"]
-repository = { type = "github", user = "dinkelspiel", repo = "resend" }
+repository = { type = "github", user = "dinkelspiel", repo = "gleesend" }
 
 [dependencies]
 gleam_stdlib = ">= 0.34.0 and < 2.0.0"
