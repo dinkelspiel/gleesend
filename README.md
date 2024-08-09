@@ -4,7 +4,7 @@
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/gleesend/)
 
 ```sh
-gleam add gleesend@1
+gleam add gleesend@2
 ```
 
 ```gleam
