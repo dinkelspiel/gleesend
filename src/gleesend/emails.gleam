@@ -1,11 +1,9 @@
 import gleam/dynamic
-import gleam/hackney
 import gleam/http.{Post}
 import gleam/http/request
 import gleam/json
 import gleam/list
 import gleam/option.{type Option, None, Some}
-import gleam/result.{try}
 import gleesend.{type Resend}
 
 pub type ResendEmail {
@@ -62,7 +60,6 @@ pub fn create_email(
 }
 
 pub type SendEmailError {
-  RequestError
   BadRequestError
   ParseResponseBodyError
 }
@@ -71,7 +68,8 @@ pub type SuccessResponse {
   SuccessResponse(id: String)
 }
 
-pub fn send_email(email: ResendEmail) {
+// Constructs a gleam/http/request.{type Request} of your email to be handled by your http library of choice
+pub fn to_request(email: ResendEmail) {
   let assert Ok(request) = request.to("https://api.resend.com/emails")
 
   let body =
@@ -107,29 +105,25 @@ pub fn send_email(email: ResendEmail) {
       ]),
     )
 
-  use response <- try(
-    request
-    |> request.prepend_header("accept", "application/vnd.hmrc.1.0+json")
-    |> request.prepend_header("Content-Type", "application/json")
-    |> request.prepend_header(
-      "Authorization",
-      "Bearer " <> email.client.api_key,
-    )
-    |> request.set_method(Post)
-    |> request.set_body(
-      body
-      |> json.to_string,
-    )
-    |> hackney.send
-    |> result.replace_error(RequestError),
+  request
+  |> request.prepend_header("accept", "application/vnd.hmrc.1.0+json")
+  |> request.prepend_header("Content-Type", "application/json")
+  |> request.prepend_header("Authorization", "Bearer " <> email.client.api_key)
+  |> request.set_method(Post)
+  |> request.set_body(
+    body
+    |> json.to_string,
   )
+}
 
+/// Takes in the string body of the response and the status returned by your http library of choice
+pub fn to_response(body: String, status: Int) {
   let body_decoder =
     dynamic.decode1(SuccessResponse, dynamic.field("id", dynamic.string))
 
-  case response.status {
+  case status {
     200 ->
-      case json.decode(response.body, body_decoder) {
+      case json.decode(body, body_decoder) {
         Ok(body) -> Ok(body)
         Error(_) -> Error(ParseResponseBodyError)
       }
