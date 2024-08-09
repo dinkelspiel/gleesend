@@ -8,29 +8,40 @@ gleam add gleesend@1
 ```
 
 ```gleam
-import gleesend
-import gleesend/emails.{create_email, send_email, with_html}
+import gleesend.{Resend}
+import gleesend/emails.{create_email, to_response, to_request, with_html, BadRequestError}
+import gleam/hackney
+import gleam/result.{try}
 
 pub fn main() {
-  let client =
-    gleesend.Resend(api_key: "// Replace this with your resend api key")
+  let client = Resend(api_key: "// Replace this with your resend api key")
 
-  create_email(
-    client:,
-    from: "from@example.com",
-    to: ["to@example.com"],
-    subject: ":)",
+  let request =
+    create_email(
+      client:,
+      from: "from@example.com",
+      to: ["to@example.com"],
+      subject: ":)",
+    )
+    |> with_html("<p>Successful response</p>")
+    |> to_request()
+
+  use response <- try(
+    request
+    |> hackney.send
+    |> result.replace_error(BadRequestError),
   )
-  |> with_html("<p>Email sent</p>")
-  |> send_email()
+
+  // Optional to_response function that parses the response body and status
+  // and returns a result with types for you to handle in your app
+  let response = to_response(response.body, response.status)
 }
 ```
 
-Further documentation can be found at <https://hexdocs.pm/resend>.
+Further documentation can be found at <https://hexdocs.pm/gleesend>.
 
 ## Development
 
 ```sh
-gleam run   # Run the project
 gleam test  # Run the tests
 ```
