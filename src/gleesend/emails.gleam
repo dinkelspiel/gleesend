@@ -1,4 +1,4 @@
-import gleam/dynamic
+import gleam/dynamic/decode
 import gleam/http.{Post}
 import gleam/http/request
 import gleam/json
@@ -74,7 +74,7 @@ pub fn to_request(email: ResendEmail) {
 
   let body =
     json.object(
-      list.concat([
+      list.flatten([
         [
           #("from", json.string(email.from)),
           #("to", json.array(email.to, fn(a) { json.string(a) })),
@@ -118,12 +118,14 @@ pub fn to_request(email: ResendEmail) {
 
 /// Takes in the string body of the response and the status returned by your http library of choice
 pub fn to_response(body: String, status: Int) {
-  let body_decoder =
-    dynamic.decode1(SuccessResponse, dynamic.field("id", dynamic.string))
+  let body_decoder = {
+    use id <- decode.field("id", decode.string)
+    decode.success(SuccessResponse(id:))
+  }
 
   case status {
     200 ->
-      case json.decode(body, body_decoder) {
+      case json.parse(body, body_decoder) {
         Ok(body) -> Ok(body)
         Error(_) -> Error(ParseResponseBodyError)
       }
