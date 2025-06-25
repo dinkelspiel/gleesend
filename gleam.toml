@@ -1,6 +1,6 @@
 name = "gleesend"
 description = "A resend library for the Gleam programming language"
-version = "2.0.2"
+version = "2.0.3"
 licences = ["MIT"]
 repository = { type = "github", user = "dinkelspiel", repo = "gleesend" }
 
